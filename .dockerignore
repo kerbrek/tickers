@@ -1,0 +1,6 @@
+*
+!app/
+!go.mod
+!go.sum
+!entrypoint.sh
+!wait-for-it.sh
