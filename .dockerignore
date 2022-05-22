@@ -1,5 +1,6 @@
 *
 !app/
+!vendor/
 !go.mod
 !go.sum
 !entrypoint.sh

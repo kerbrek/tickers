@@ -10,10 +10,6 @@ endif
 
 project := tickers
 
-.PHONY: setup # Setup a working environment
-setup:
-	@go mod download && go mod verify
-
 .PHONY: lint # Run linter
 lint:
 	@staticcheck ./app/
