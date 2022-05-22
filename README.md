@@ -59,10 +59,6 @@
 
 ## Commands
 
-- Start _Docker Compose_ services
-
-  `make up`
-
 - Start application
 
   `make start`
