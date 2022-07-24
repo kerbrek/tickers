@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -14,7 +13,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var db *sql.DB
 var tickersURL = "https://api.blockchain.com/v3/exchange/tickers"
 
 type TickerIn struct {
@@ -31,15 +29,21 @@ type TickerOut struct {
 }
 
 func main() {
-	db = makeDB()
-	createTables()
+	db, err := makeDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	if err := createTables(); err != nil {
+		log.Fatal(err)
+	}
 
 	client := http.Client{
 		Timeout: 5 * time.Second,
 	}
 
-	err := updateTickers(&client)
-	if err != nil {
+	if err := updateTickers(&client); err != nil {
 		log.Fatal(err)
 	}
 	log.Print("Tickers saved")

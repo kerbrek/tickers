@@ -3,14 +3,18 @@ FROM golang:1.18-bullseye as builder
 WORKDIR /build
 
 COPY . .
-RUN go build -v -o ./tickers ./app/
+
+# hadolint ignore=DL3003
+RUN cd app/ && go build -v -o ./tickers
 
 
 
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
+# hadolint ignore=DL3008,DL3009
 RUN apt-get update \
-    && apt-get install -y ca-certificates \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
     \
     && groupadd --system --gid 999 app \
     && useradd --system --uid 999 --gid app app
@@ -18,9 +22,6 @@ USER app
 
 WORKDIR /srv
 
-COPY --chown=app:app entrypoint.sh wait-for-it.sh ./
-COPY --chown=app:app --from=builder /build/tickers ./tickers
-
-ENTRYPOINT ["/srv/entrypoint.sh"]
+COPY --chown=app:app --from=builder /build/app/tickers ./
 
 CMD ["/srv/tickers"]

@@ -24,9 +24,17 @@ func TestGetTickersRoute(t *testing.T) {
 		Transport: r,
 	}
 
-	db = makeDB()
-	dropTables()
-	createTables()
+	if _, err := makeDB(); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := dropTables(); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := createTables(); err != nil {
+		t.Fatal(err)
+	}
 
 	tickersIn, err := downloadTickers(client)
 	if err != nil {
