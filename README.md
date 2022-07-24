@@ -55,7 +55,7 @@
 - make
 - docker
 - docker-compose
-- [dotenv](https://www.npmjs.com/package/dotenv-cli)
+- [dotenv](https://github.com/theskumar/python-dotenv#command-line-interface)
 
 ## Commands
 

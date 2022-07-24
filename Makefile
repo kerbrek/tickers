@@ -35,14 +35,14 @@ test: prepare-test-containers
 	@sleep 1
 	@trap '${stop-prepared-test-containers}' EXIT && \
 		echo Starting tests... && \
-		dotenv -e .env.example -- env POSTGRES_PORT=5433 go test ./app/
+		dotenv -f .env.example run -- env POSTGRES_PORT=5433 go test ./app/
 
 .PHONY: coverage # Run tests with coverage report
 coverage: prepare-test-containers
 	@sleep 1
 	@trap '${stop-prepared-test-containers}' EXIT && \
 		echo Starting tests... && \
-		dotenv -e .env.example -- env POSTGRES_PORT=5433 \
+		dotenv -f .env.example run -- env POSTGRES_PORT=5433 \
 			go test -coverprofile=coverage.out ./app/ && \
 		go tool cover -html=coverage.out -o coverage.html && \
 		${OPEN} coverage.html
@@ -68,7 +68,7 @@ start: prepare-temp-containers
 	@sleep 1
 	@trap '${stop-prepared-temp-containers}' EXIT && \
 		echo Starting application... && \
-		dotenv -e .env.example -- go run ./app/
+		dotenv -f .env.example run -- go run ./app/
 
 .PHONY: db
 db: prepare-temp-containers
@@ -79,7 +79,7 @@ db: prepare-temp-containers
 .PHONY: app
 app:
 	@echo Starting application... && \
-		dotenv -e .env.example -- go run ./app/
+		dotenv -f .env.example run -- go run ./app/
 
 .PHONY: up # Start Compose services
 up:
